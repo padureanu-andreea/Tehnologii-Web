@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>Agendă Contacte</title>
+    <script>
+        window.onload = () => {
+            const form = document.getElementById('form')
+
+            const formSubmitHandler = (e) => {
+                e.preventDefault()
+                
+                const tbody = document.getElementById('contacte')
+                const nume = document.getElementById('nume').value
+                const telefon = document.getElementById('telefon').value
+                
+                const row = document.createElement('tr')
+                row.innerHTML = `
+                    <td>${nume}</td>
+                    <td>${telefon}</td>
+                `
+                
+                tbody.appendChild(row)
+                
+                // Resetăm formularul
+                form.reset()
+            }
+            
+            form.onsubmit = formSubmitHandler
+        }
+    </script>
+</head>
+<body>
+    <h1>Agendă</h1>
+    
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Nume</th>
+                <th>Telefon</th>
+            </tr>
+        </thead>
+        <tbody id="contacte">
+        </tbody>
+    </table>
+    
+    <h2>Adaugă contact nou</h2>
+    <form id="form">
+        <input type="text" id="nume" placeholder="Nume" required />
+        <input type="text" id="telefon" placeholder="Telefon" required />
+        <button type="submit">Adaugă</button>
+    </form>
+</body>
+</html>

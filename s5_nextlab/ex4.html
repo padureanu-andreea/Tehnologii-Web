@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>DOM și Evenimente Custom</title>
+    <script>
+        window.onload = () => {
+            const button = document.getElementById('myButton')
+            
+            const customEvent = new CustomEvent('butonApasat', {
+                detail: { message: 'Eveniment custom declansat!' }
+            })
+            
+            const clickHandler = () => {
+                console.log('Eveniment CLICK tratat')
+                document.dispatchEvent(customEvent)
+            }
+            
+            const customEventHandler = (event) => {
+                console.log('Eveniment CUSTOM tratat')
+                console.log('Detalii:', event.detail.message)
+            }
+            
+            button.addEventListener('click', clickHandler)
+            document.addEventListener('butonApasat', customEventHandler)
+        }
+    </script>
+</head>
+<body>
+    <button id="myButton">Click this button!</button>
+</body>
+</html>
