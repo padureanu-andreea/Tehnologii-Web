@@ -1,0 +1,25 @@
+.btn:hover {
+    color: blue;
+}
+
+input:required {
+    background-color: red;
+}
+
+input:focus {
+    background-color: yellow !important;
+}
+
+p::first-line {
+    font-weight: bold;
+}
+
+input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+}
+
+input[type="checkbox"]:checked {
+    outline: 2px solid red;
+    outline-offset: -2px;
+}
