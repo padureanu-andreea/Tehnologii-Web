@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>thatsapp</title>
+    <style>
+        :root {
+            --base-background-color: white;
+            --secondary-background-color: whitesmoke;
+            --base-text-color: black;
+            --secondary-text-color: gray;
+            --badge-color: lime;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* --- LAYOUT PRINCIPAL --- */
+        .container {
+            display: grid;
+            grid-template-columns: 30% auto;
+            grid-template-rows: 10% auto 10%;
+            height: 100vh;
+            /* Corecție: Sidebar este un singur element în HTML, deci ocupă toată stânga */
+            grid-template-areas:
+                "sidebar chat-heading"
+                "sidebar chat"
+                "sidebar chat-input"
+            ;
+        }
+
+        /* --- ZONA STÂNGA (SIDEBAR) --- */
+        .sidebar {
+            grid-area: sidebar;
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid #eee;
+        }
+
+        div.search-bar {
+            /* Nu mai folosim grid-area aici, e flex item în sidebar */
+            height: 10%;
+            min-height: 60px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: white;
+        }
+
+        div.search-bar input {
+            height: 2.5em;
+            width: 90%;
+            border: 1px solid #eee;
+            background-color: white; /* Sau whitesmoke dacă vrei contrast */
+            padding-left: 15px;
+            border-radius: 1.5em;
+            outline: none;
+        }
+
+        div.contacts {
+            flex: 1; /* Ocupă restul spațiului în sidebar */
+            overflow-y: auto;
+        }
+
+        .contact {
+            height: 80px;
+            display: flex;
+            flex-flow: row;
+            align-items: center;
+            padding-left: 15px;
+            cursor: pointer;
+        }
+
+        /* Zebra striping păstrat conform exemplului și imaginii */
+        .contact:nth-child(even) {
+            background-color: var(--secondary-background-color);
+        }
+
+        .contact-container {
+            padding-left: 15px;
+        }
+
+        .name {
+            font-weight: 500;
+            font-size: 1.1em;
+        }
+
+        .status {
+            font-size: 0.9em;
+            color: var(--secondary-text-color);
+            margin-top: 4px;
+        }
+
+        .avatar {
+            height: 50px;
+            width: 50px;
+            border-radius: 50%;
+            background-color: var(--badge-color);
+            color: var(--base-background-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+
+        /* --- ZONA DREAPTA (CHAT) --- */
+        
+        /* 1. Header Chat */
+        div.chat-heading {
+            grid-area: chat-heading;
+            background-color: white; /* În imagine este alb */
+            height: 100%;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            padding-left: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .chat-heading .avatar {
+            margin-right: 15px;
+            /* Micșorăm puțin avatarul din header dacă e nevoie, dar 50px e ok */
+        }
+
+        .chat-heading .interlocutor {
+            font-size: 1.2em;
+            font-weight: 500;
+        }
+
+        /* 2. Lista Mesaje */
+        div.chat {
+            grid-area: chat;
+            height: 100%;
+            width: 100%;
+            padding: 20px;
+            overflow-y: auto;
+            background-color: white;
+        }
+
+        .chat .message {
+            width: 75%; /* Mesajele sunt late în imagine */
+            min-height: 60px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            margin-bottom: 20px; /* Spațiu între mesaje */
+            font-size: 1.1em;
+        }
+
+        .chat .message .time {
+            color: var(--secondary-text-color);
+            margin-left: 5px;
+            font-size: 0.9em;
+        }
+
+        .chat .message .time::before {
+            content: '@';
+        }
+
+        /* Mesajele Mele (Stânga - Gri) */
+        .chat .message:nth-child(odd) {
+            background-color: var(--secondary-background-color); /* Gri */
+            float: left;
+            clear: both;
+        }
+
+        /* Mesajele Lui (Dreapta - Verde) */
+        .chat .message:nth-child(even) {
+            background-color: var(--badge-color); /* Lime */
+            float: right;
+            clear: both;
+            /* În imagine textul e aliniat la stânga în interiorul bulei, nu right */
+            text-align: left; 
+        }
+
+        /* 3. Input Chat (Jos) */
+        div.chat-input {
+            grid-area: chat-input;
+            background-color: var(--secondary-background-color);
+            height: 100%;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .chat-input input[type="text"] {
+            flex: 1;
+            height: 40px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            margin-right: 10px;
+        }
+
+        .chat-input input[type="button"] {
+            height: 40px;
+            width: 40px;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="search-bar">
+                <input type="text" placeholder="Search or start chat" id="search">
+            </div>
+            <div class="contacts">
+                <div class="contact">
+                    <div class="avatar">J</div>
+                    <div class="contact-container">
+                        <div class="name">Jim</div>
+                        <div class="status">Here</div>
+                    </div>
+                </div>
+                <div class="contact">
+                    <div class="avatar">J</div>
+                    <div class="contact-container">
+                        <div class="name">Jane</div>
+                        <div class="status">Here</div>
+                    </div>
+                </div>
+                <div class="contact">
+                    <div class="avatar">J</div>
+                    <div class="contact-container">
+                        <div class="name">John</div>
+                        <div class="status">Here</div>
+                    </div>
+                </div>
+                <div class="contact">
+                    <div class="avatar">B</div>
+                    <div class="contact-container">
+                        <div class="name">Batman</div>
+                        <div class="status">Here</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="chat-heading">
+            <div class="avatar">J</div>
+            <div class="interlocutor">Jim</div>
+        </div>
+        <div class="chat">
+            <div class="message">
+                <div class="content">Message from me</div>
+                <div class="time">10-10-10</div>
+            </div>
+            <div class="message">
+                <div class="content">Message from Jim</div>
+                <div class="time">10-10-10</div>
+            </div>
+            <div class="message">
+                <div class="content">Message from me</div>
+                <div class="time">10-10-10</div>
+            </div>
+        </div>
+        <div class="chat-input">
+            <input type="text" placeholder="input message here">
+            <input type="button" value=">">
+        </div>
+    </div>
+</body>
+
+</html>
